@@ -1,114 +1,94 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React from 'react'
+import {View, StyleSheet, Modal, TouchableOpacity} from 'react-native'
+import Header from './src/componentes/Header'
+import TocList from './src/componentes/TocList'
+import AddToc from './src/componentes/AddToc'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import moment from 'moment'
+import 'moment/locale/pt-br'
+const today = moment().startOf('hour').fromNow(); 
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const initialState = {
+  modalVisivel: false,
+  caixaGrande : false,
+    tocs:[{
+        id: Math.random(),
+        title: 'Tranquei a porta',
+        date: today,
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+    },
+    {
+        id: Math.random(),
+        title: 'Tranquei a torneira',
+        date: today,
+
+    },]
+}
+
+export default class App extends React.Component{
+  state = {
+    ...initialState
+  }
+
+  fechar = () => {
+    return(
+      this.setState({modalVisivel: false})
+    )
+  }
+
+  salvarToc = title => {
+    const toc = {id: Math.random(), title, date: today}
+    const novo = this.state
+
+    return(
+      novo.tocs.push(toc),
+      this.setState(novo),
+      this.fechar
+    )
+  }
+
+  render(){
+    return(
+      <View style={styles.container}>
+        <AddToc isVisible={this.state.modalVisivel}
+        fechar={this.fechar} 
+        salvarToc={this.salvarToc}/>
+        <Header/>
+        <TocList tocs={this.state.tocs}/>
+        <TouchableOpacity 
+        style={styles.bgIcon} 
+        onPress={() => this.setState({modalVisivel: true})}>
+          <Icon name = 'plus' style={styles.Icon}/>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  container:{
+    flex: 1,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+  bgIcon:{
+    position: "absolute",
+    backgroundColor: "#ad2f8c",
+    right: 25,
+    bottom: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+    shadowColor: 'white',
+    shadowOffset: {
+        width: 3,
+        height: 3,
+    },
+    shadowRadius: 0.2,
 
-export default App;
+},
+Icon:{
+    color: 'white',
+    fontSize: 20,
+    margin: 20,
+}
+})

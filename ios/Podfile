@@ -44,8 +44,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'Toc' do
-  # Pods for Toc
+target 'toc' do
+  # Pods for toc
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -77,7 +77,7 @@ target 'Toc' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'TocTests' do
+  target 'tocTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -94,10 +94,10 @@ target 'Toc' do
   end
 end
 
-target 'Toc-tvOS' do
-  # Pods for Toc-tvOS
+target 'toc-tvOS' do
+  # Pods for toc-tvOS
 
-  target 'Toc-tvOSTests' do
+  target 'toc-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
