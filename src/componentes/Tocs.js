@@ -11,7 +11,7 @@ export default props => {
             style={styles.containerP} >
             <View>
                 <Text style={styles.title}>{props.title}</Text>
-                <Text style={styles.date}>Ultima vez: {props.date}</Text>
+                <Text style={styles.date}>Ultima vez: {props.date} id: {props.id}</Text>
             </View>
             <TouchableOpacity style={styles.botao}>
                 <Text style={styles.textoBotao}>botao</Text>

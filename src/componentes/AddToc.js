@@ -1,51 +1,66 @@
 import React from 'react'
 import {View, Text, StyleSheet, Modal, TouchableWithoutFeedback, TextInput, TouchableOpacity} from 'react-native'
+import moment from 'moment'
+import 'moment/locale/pt-br'
+const today = moment().startOf('hour').fromNow(); 
 
-
-
+const estadoInicial ={id: '',  title: '', date: '', }
 
 export default class AddToc extends React.Component { 
     state={
-        title:''
+        ...estadoInicial
     }
 
-    save = () => {
-        const newState = this.state
-        this.props.salvarToc(this.newState.title)
-    
+    save =() => {
+        const novoToc = {
+            id: Math.random(),
+            title: this.state.title,
+            date: today,
+        }
 
-    } 
+        this.props.addToc(novoToc)
+        this.setState({...estadoInicial})
+        
+    }
+
+    
     render(){
-    return(
-        <Modal transparent= {true} 
-        visible={this.props.isVisible}>
-            <TouchableWithoutFeedback 
-            onPress={this.props.fechar}>
-                <View style={styles.container}/>
-            </TouchableWithoutFeedback>
-            
-            
-            <View style={{flex: 1, backgroundColor: 'rgba(0,0,0,0.7)'}}>
-                <View style={styles.fundo}>
-                    <TextInput style={styles.input} 
-                    placeholder='Titulo do Toc' 
-                    placeholderTextColor='white'
-                    value={this.state.title}
-                    onChangeText={title=>this.setState({title})}/>
-                    <TouchableOpacity style={styles.botao}
-                    onPress={this.save}>
-                        <Text style={styles.textoBotao}>Salvar</Text>
-                    </TouchableOpacity>
+    
+    
+        
+
+        return(
+            <Modal transparent= {true} 
+            visible={this.props.isVisible}>
+                <TouchableWithoutFeedback 
+                onPress={this.props.fechar}>
+                    <View style={styles.container}/>
+                </TouchableWithoutFeedback>
+
+
+                <View style={{flex: 1, backgroundColor: 'rgba(0,0,0,0.7)'}}> 
+                    <View style={styles.fundo}>
+                        <TextInput style={styles.input} 
+                        placeholder='Titulo do Toc' 
+                        placeholderTextColor='white'
+                        onChangeText={title=>this.setState({title})}
+                        value={this.state.title}
+                        />
+                        <TouchableOpacity style={styles.botao}
+                        onPress={this.save}>
+                            <Text style={styles.textoBotao}>Salvar</Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
-                
-            </View>
-            
-            <TouchableWithoutFeedback 
-            onPress={this.props.fechar}>
-                <View style={styles.container}/>
-            </TouchableWithoutFeedback>
-        </Modal>
-    )}
+
+                <TouchableWithoutFeedback 
+                onPress={this.props.fechar}>
+                    <View style={styles.container}/>
+                </TouchableWithoutFeedback>
+            </Modal>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
