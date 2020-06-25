@@ -1,20 +1,31 @@
 import React from 'react'
-import {View, Text, StyleSheet, ImageBackground} from 'react-native'
-import headerBg from '../assets/headerBg.jpg'
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import cores from './cores'
+import Icon from 'react-native-vector-icons/Feather'
+
 
 export default props => {
     return(
-        <ImageBackground source={headerBg} style={styles.container}>
+        <View style={styles.container}>
             <Text style={styles.title}>TOC</Text>
-        </ImageBackground>
+            <TouchableOpacity style={styles.fundoLixeira} onPress={props.checkDeletar}>
+                <Icon name='trash-2' style={styles.lixeira}/>
+            </TouchableOpacity>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     container:{
       flex: 1,
-      alignItems: 'flex-end',
-      flexDirection: 'row'
+      justifyContent: 'space-between',
+      alignItems:'center',
+      flexDirection: 'row',
+      elevation: 5,
+      backgroundColor: cores.claro,
+      elevation:2,
+      
+
     },
     title:{
         left: 10,
@@ -25,6 +36,21 @@ const styles = StyleSheet.create({
             height: 3,
         },
         textShadowRadius: 1,
-        color: '#ad2f8c',
+        color: 'white',
+        elevation:2,
+    },
+    fundoLixeira:{
+        backgroundColor: cores.escuro,
+        borderRadius:50,
+        width: 35,
+        height: 35,
+        alignItems: 'center',
+        justifyContent:'center',
+        right:10,
+        
+    },
+    lixeira:{
+        color: 'white',
+        fontSize: 25,
     }
   })

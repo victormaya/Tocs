@@ -1,10 +1,11 @@
 import React from 'react'
 import {View, Text, StyleSheet, Modal, TouchableWithoutFeedback, TextInput, TouchableOpacity} from 'react-native'
+import cores from './cores'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 const today = moment().startOf('hour').fromNow(); 
 
-const estadoInicial ={id: '',  title: '', date: '', }
+const estadoInicial ={id: '',  title: '', date: '', caixaCheck: false, checkMarcado: false, }
 
 export default class AddToc extends React.Component { 
     state={
@@ -16,6 +17,9 @@ export default class AddToc extends React.Component {
             id: Math.random(),
             title: this.state.title,
             date: today,
+            caixaCheck: false,
+            checkMarcado: false,
+
         }
 
         this.props.addToc(novoToc)
@@ -66,30 +70,32 @@ export default class AddToc extends React.Component {
 const styles = StyleSheet.create({
     fundo:{
         position:'relative',
-        backgroundColor: '#ad2f8c',
+        backgroundColor: cores.claro,
         flex: 2,
-        borderRadius: 20,
-        padding: 20,
+        borderRadius: 10,
+        padding: 1,
         alignItems: 'center',
         justifyContent: 'center'
     },
     container:{
-        flex: 1,
+        position: 'relative',
+        flex: 2,
         backgroundColor: 'rgba(0,0,0,0.7)'
     },
     input:{
-        backgroundColor: '#100610',
+        position:'relative',
+        backgroundColor: cores.escuro,
         borderRadius: 10,
         color: 'white',
-        width: '80%'
+        width: '90%'
         
     },
     botao:{
         position: 'relative',
         marginTop: 10,
-        backgroundColor: '#100610',
-        width: "30%",
-        height: 30,
+        backgroundColor: cores.escuro,
+        width: "40%",
+        height: 40,
         borderRadius:10,
         justifyContent: 'center',
         alignItems: 'center'
