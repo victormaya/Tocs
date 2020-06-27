@@ -17,7 +17,6 @@ export default class AddToc extends React.Component {
             id: Math.random(),
             title: this.state.title,
             date: today,
-            caixaCheck: false,
             checkMarcado: false,
 
         }

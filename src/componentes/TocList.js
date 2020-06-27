@@ -12,11 +12,13 @@ const today = moment().startOf('hour').fromNow()
 const initialState = {
     modalVisivel: false, 
     caixaCheck: false,
+    allCheck: false,
+    marc: 0,
     tocs:[
-        {id: '1',  title: 'oi', date: today, checkMarcado: false},
-        {id: '2',  title: 'oi', date: today, checkMarcado: false},
-        {id: '3',  title: 'oi', date: today, checkMarcado: false},
-        {id: '4',  title: 'oi', date: today, checkMarcado: false},
+        {id: 1,  title: "A", date: today, caixaCheck: false, checkMarcado: false, },
+        {id: 2,  title: 'B', date: today, caixaCheck: false, checkMarcado: false, },
+        {id: 3,  title: "C", date: today, caixaCheck: false, checkMarcado: false, },
+        {id: 4,  title: 'D', date: today, caixaCheck: false, checkMarcado: false, }
       ]
   }
 
@@ -44,6 +46,7 @@ export default class TocList extends React.Component{
     
     componentDidMount = () => {
             this.tocsVisivel()
+
     }
     
     tocsVisivel = () => {
@@ -55,15 +58,44 @@ export default class TocList extends React.Component{
         this.setState({caixaCheck: !this.state.caixaCheck})
     }
 
+    marcarTodas = () =>{
+        const tocs=this.state.tocs.map(toc =>{
+            toc.checkMarcado=!toc.checkMarcado
+        })
+        return(
+            this.setState({tocs}),
+            this.allCheck()
+            )
+    }
+
+    allCheck = () => {
+        const tocs = this.state.tocs
+        let marc = this.state.marc
+        for (const item of tocs){
+            if(item.checkMarcado===true){
+                marc+=1
+            }
+        }
+        if( marc===tocs.length){
+            this.setState({allCheck: true})
+        }else{
+            this.setState({allCheck: false})
+        }
+
+    } 
+
     marcarCheck= ident =>{
         const tocs = this.state.tocs
         const elemento = tocs.find(elemento => elemento.id===ident)
         const indice = tocs.indexOf(elemento)
         tocs[indice].checkMarcado=!tocs[indice].checkMarcado
+        this.allCheck()
+
         return(
             this.setState({tocs})
         )
     }
+    
     render(){
         return(
             <View style={styles.container}>
@@ -71,7 +103,10 @@ export default class TocList extends React.Component{
             fechar={this.fechar} 
             addToc={this.addToc}
             />
-            <Header checkDeletar={this.checkDeletar}/>
+            <Header checkDeletar={this.checkDeletar}
+                caixaCheck={this.state.caixaCheck}
+                allCheck={this.state.allCheck}
+                marcarTodas={this.marcarTodas}/>
             <View style={styles.list}>
                 <FlatList data={this.state.visibleTocs}
                     keyExtractor={item=>`${item.id}`}  
