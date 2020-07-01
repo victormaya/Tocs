@@ -7,18 +7,30 @@ import AddToc from './AddToc'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import moment from 'moment'
 import 'moment/locale/pt-br'
+import AsyncStorage from '@react-native-community/async-storage'
+
+
 
 const initialState = {
     modalVisivel: false, 
-    tocs:[
-        
-      ]
-  }
+    tocs:[]
+}
 
 export default class TocList extends React.Component{
     state = {
         ...initialState
       }
+    componentDidMount = async() => {
+        const stateString = await AsyncStorage.getItem('tocsState')
+        const state = JSON.parse(stateString) || initialState
+        this.setState(state)
+    }
+
+    tocsVisivel = () => {
+        let visibleTocs=[...this.state.tocs]
+        this.setState({visibleTocs})
+        AsyncStorage.setItem('tocsState', JSON.stringify(this.state))
+    }
 
     fechar = () => {
         return(        
@@ -57,16 +69,6 @@ export default class TocList extends React.Component{
         })
         this.setState({tocs}, this.tocsVisivel)
 
-    }
-    
-    componentDidMount = () => {
-            this.tocsVisivel()
-
-    }
-    
-    tocsVisivel = () => {
-        let visibleTocs=[...this.state.tocs]
-        this.setState({visibleTocs})
     }
     
     render(){
