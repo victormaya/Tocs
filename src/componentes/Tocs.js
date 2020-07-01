@@ -4,39 +4,39 @@ import moment from 'moment'
 import cores from './cores'
 import 'moment/locale/pt-br'
 import Icon from 'react-native-vector-icons/Fontisto'
-
-const today = moment().startOf('hour').fromNow();
-
-
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 export default props => {
+    swipDel = () => {
+        return (
+            <TouchableOpacity onPress={() => props.delToc(props.id)} style={styles.fundoLixeira}>
+                    <Icon style ={ styles.lixeira} name='trash'/>
+            </TouchableOpacity>
+
+        )
+    }
     return(
-        <TouchableOpacity 
-            style={styles.containerP} >
-            <View style={styles.barraLeft}></View>
-            <View style={styles.viewText}>
-                <Text style={styles.title}>{props.title}</Text>
-                <Text style={styles.date}>Ultima vez: {props.date}</Text>
-            </View>
-            <View style={styles.viewBotao}>
-                {props.caixaCheck ? 
-                <TouchableOpacity style={styles.fundoCheck} onPress={()=>props.marcarCheck(props.id)}>
-                    {props.checkMarcado? <Icon name='checkbox-active' style={styles.check}/>:<Icon name='checkbox-passive' style={styles.check}/>}    
-                </TouchableOpacity>:
-                <TouchableOpacity style={styles.botao}>
-                    <Text style={styles.textoBotao}>Feito</Text>
-                </TouchableOpacity>}
-            </View>
-        </TouchableOpacity>
+        <Swipeable
+            renderRightActions={swipDel}>
+            <TouchableOpacity 
+                style={styles.container} >
+                <View style={styles.barraLeft}></View>
+                <View style={styles.viewText}>
+                    <Text style={styles.title}>{props.title}</Text>
+                    <Text style={styles.date}>Ultima vez: {props.date}</Text>
+                </View>
+                <View style={styles.viewBotao}>
+                    <TouchableOpacity style={styles.botao} onPress={() => props.attMoment(props.id)}>
+                        <Text style={styles.textoBotao}>Feito</Text>
+                    </TouchableOpacity>
+                </View>
+            </TouchableOpacity>
+        </Swipeable>
     )
 }
 
 const styles = StyleSheet.create({
-    containerG:{
-          
-
-    },
-    containerP:{
+    container:{
         backgroundColor: cores.claro,
         width: '100%',
         height: 96,
@@ -47,26 +47,15 @@ const styles = StyleSheet.create({
         position: 'relative',
         borderLeftColor:'purple',
         borderLeftWidth: 2,
-        
-        
-        
-
-        
-              
-
     },viewText:{
         position: 'relative',
         width:'78.5%',
         flexDirection:'column',
         justifyContent:'space-between'
-        
-        
-
     },
     viewBotao:{
         alignItems: 'center',
         flexDirection: 'row',
-
     },
     title:{
         paddingLeft:10,
@@ -75,7 +64,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'Arial',
         marginTop:10,
-
     },
     date:{
         position: "relative",
@@ -101,20 +89,18 @@ const styles = StyleSheet.create({
         color:'white',
         
     },
-    fundoCheck:{
-        position: 'relative',
-        backgroundColor: cores.escuro,
-        alignItems: 'center',
+    fundoLixeira:{
+        backgroundColor: 'red',
+        borderColor: cores.escuro,
+        borderWidth: 1,
+        padding: 20,
+        alignItems: "flex-end",
         justifyContent: 'center',
-        height: '40%',
-        width:60,
-        padding: 15,
-        right: 10,
         borderRadius: 10,
-        elevation: 3,
     },
-    check:{
-        color:'white',
-        fontSize:20
+    lixeira:{
+        fontSize: 20,
+        color: "white",
     }
+    
 })
