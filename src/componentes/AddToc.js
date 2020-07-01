@@ -3,7 +3,8 @@ import {View, Text, StyleSheet, Modal, TouchableWithoutFeedback, TextInput, Touc
 import cores from './cores'
 import moment from 'moment'
 import 'moment/locale/pt-br'
-const today = moment().startOf('hour').fromNow(); 
+
+
 
 const estadoInicial ={id: '',  title: '', date: '', caixaCheck: false, checkMarcado: false, }
 
@@ -16,7 +17,7 @@ export default class AddToc extends React.Component {
         const novoToc = {
             id: Math.random(),
             title: this.state.title,
-            date: today,
+            date: moment().format('LLL'),
             checkMarcado: false,
 
         }
